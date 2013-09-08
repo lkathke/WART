@@ -9,7 +9,7 @@ Uses token generator created by our lord and saviour [Jake](https://github.com/d
 
 Uses [WhatsApiNet](https://github.com/shirioko/WhatsAPINet) fork by me
 
-Requires .NET Framework 4 or Mono Framework
+Requires .NET Framework 4 or Mono Framework (mono-complete on Linux)
 
 This tool is used to register new phonenumbers and can also be used to retrieve a new password for already registered numbers.
 
