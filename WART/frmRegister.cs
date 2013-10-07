@@ -26,7 +26,7 @@ namespace WART
         protected bool raw = false;
         public  string method = "sms";
         protected ToolTip tt;
-        const string WA_CERT_THUMBPRINT = "AC4C5FDEAEDD00406AC33C58BAFD6DE6D2424FEE";
+        private string[] WaCertThumbprints = {"AC4C5FDEAEDD00406AC33C58BAFD6DE6D2424FEE", "738F92D22B2A2E6A8A42C60964B93FCCB456957F"};
 
         public frmRegister()
         {
@@ -36,7 +36,7 @@ namespace WART
 
         private bool CustomCertificateValidation(object sender, System.Security.Cryptography.X509Certificates.X509Certificate certificate, System.Security.Cryptography.X509Certificates.X509Chain chain, System.Net.Security.SslPolicyErrors sslPolicyErrors)
         {
-            if (certificate.GetCertHashString() == WA_CERT_THUMBPRINT)
+            if (WaCertThumbprints.Contains(certificate.GetCertHashString()))
             {
                 return true;
             }
