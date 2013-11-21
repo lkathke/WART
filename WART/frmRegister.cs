@@ -59,7 +59,8 @@ namespace WART
             this.tt.SetToolTip(this.radSMS, "You will receive an SMS with the 6-digit verification code");
             this.tt.SetToolTip(this.radVoice, "You will receive a voice call which will tell you your 6-digit verification code");
             this.tt.SetToolTip(this.btnID, "Generate ID by number and password and copy it to clipboard");
-            this.tt.SetToolTip(this.btnExist, "Check an existing registration and retrieve a new password");
+            this.tt.SetToolTip(this.btnExist, "Only check the submitted registration details and retrieve a new password if they match");
+            this.tt.SetToolTip(this.btnCodeRequest, "Request registration code. You will receive a new password instead if the submitted registration already exists");
         }
 
         private void btnCodeRequest_Click(object sender, EventArgs e)

@@ -69,6 +69,8 @@
             this.btnCodeRequest.Text = "Request code";
             this.btnCodeRequest.UseVisualStyleBackColor = true;
             this.btnCodeRequest.Click += new System.EventHandler(this.btnCodeRequest_Click);
+            this.btnCodeRequest.MouseEnter += new System.EventHandler(this.onMouseEnter);
+            this.btnCodeRequest.MouseLeave += new System.EventHandler(this.onMouseLeave);
             // 
             // label2
             // 
