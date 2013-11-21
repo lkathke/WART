@@ -434,5 +434,56 @@ namespace WART
                 }
             }
         }
+
+        private void btnExist_Click(object sender, EventArgs e)
+        {
+            if (!String.IsNullOrEmpty(this.txtPhoneNumber.Text))
+            {
+                try
+                {
+                    this.number = this.txtPhoneNumber.Text;
+                    this.TrimNumber();
+                    WhatsAppApi.Parser.PhoneNumber phonenumber = new WhatsAppApi.Parser.PhoneNumber(this.number);
+                    this.identity = WhatsAppApi.Register.WhatsRegisterV2.GenerateIdentity(phonenumber.Number, this.txtPassword.Text);
+                    this.cc = phonenumber.CC;
+                    this.phone = phonenumber.Number;
+                    this.language = phonenumber.ISO639;
+                    this.locale = phonenumber.ISO3166;
+                    this.mcc = phonenumber.MCC;
+
+                    CountryHelper chelp = new CountryHelper();
+                    string country = string.Empty;
+                    if (!chelp.CheckFormat(this.cc, this.phone, out country))
+                    {
+                        string msg = string.Format("Provided number does not match any known patterns for {0}", country);
+                        this.Notify(msg);
+                        return;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    string msg = String.Format("Error: {0}", ex.Message);
+                    this.Notify(msg);
+                    return;
+                }
+                string response = null;
+                this.password = WhatsAppApi.Register.WhatsRegisterV2.RequestExist(this.cc, this.phone, out response, this.identity);
+
+                if (!string.IsNullOrEmpty(this.password))
+                {
+                    //password received
+                    this.OnReceivePassword();
+                }
+                else
+                {
+                    string msg = string.Format("Could not verify existing registration\r\n{0}", response);
+                    this.Notify(msg);
+                }
+            }
+            else
+            {
+                this.Notify("Please enter a phone number");
+            }
+        }
     }
 }
