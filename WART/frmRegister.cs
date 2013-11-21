@@ -242,6 +242,9 @@ namespace WART
                 case "register":
                     this.CliRegisterCode();
                     break;
+                case "exist":
+                    this.CliExist();
+                    break;
                 default:
                     //show tip
                     this.CliPrintHelp();
@@ -256,6 +259,7 @@ namespace WART
             Console.WriteLine(String.Format("WART {0} - https://github.com/shirioko/WART", Assembly.GetExecutingAssembly().GetName().Version));
             Console.WriteLine("Created by:");
             Console.WriteLine("\tDynogic  - https://github.com/dynogic");
+            Console.WriteLine("\tpastoso  - https://github.com/pastoso");
             Console.WriteLine("\tshirioko - https://github.com/shirioko");
             Console.WriteLine();
             Console.WriteLine("Usage: WART.exe [method] [args (key=value)]");
@@ -265,6 +269,7 @@ namespace WART
             Console.WriteLine("\tid number password --- Generates and prints identity");
             Console.WriteLine("\trequest number password method --- Requests registration code or gets password");
             Console.WriteLine("\tregister number password code --- Registers a number");
+            Console.WriteLine("\texist number password --- Check an existing registration and retrieve a new password");
             Console.WriteLine();
             Console.WriteLine("Args:");
             Console.WriteLine("\tnumber --- Phone number incl. country code");
@@ -277,6 +282,7 @@ namespace WART
             Console.WriteLine("\tWART.exe id number=1234567890 password=secret");
             Console.WriteLine("\tWART.exe request number=1234567890 password=secret method=sms");
             Console.WriteLine("\tWART.exe register number=1234567890 password=secret code=000000");
+            Console.WriteLine("\tWART.exe exist number=1234567890 password=secret");
         }
 
         private void CliRegisterCode()
@@ -368,6 +374,50 @@ namespace WART
                             Console.WriteLine("Error:");
                             Console.WriteLine(response);
                         }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine(string.Format("Invalid phone number for {0}", country));
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        private void CliExist()
+        {
+            this.GetArgs();
+            this.TrimNumber();
+            try
+            {
+                WhatsAppApi.Parser.PhoneNumber pn = new WhatsAppApi.Parser.PhoneNumber(this.number);
+                this.identity = WhatsAppApi.Register.WhatsRegisterV2.GenerateIdentity(pn.Number, this.password);
+                CountryHelper ch = new CountryHelper();
+                string country = string.Empty;
+                string response = string.Empty;
+                if (ch.CheckFormat(pn.CC, pn.Number, out country))
+                {
+                    this.password = WhatsAppApi.Register.WhatsRegisterV2.RequestExist(pn.CC, pn.Number, out response, this.identity);
+
+                    //return raw
+                    if (this.raw)
+                    {
+                        Console.WriteLine(response);
+                        return;
+                    }
+
+                    if (!string.IsNullOrEmpty(this.password))
+                    {
+                        Console.WriteLine("Got password:");
+                        Console.WriteLine(this.password);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Error:");
+                        Console.WriteLine(response);
                     }
                 }
                 else
