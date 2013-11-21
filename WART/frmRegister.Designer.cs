@@ -228,6 +228,8 @@
             this.btnExist.Text = "Check existing registration";
             this.btnExist.UseVisualStyleBackColor = true;
             this.btnExist.Click += new System.EventHandler(this.btnExist_Click);
+            this.btnExist.MouseEnter += new System.EventHandler(this.onMouseEnter);
+            this.btnExist.MouseLeave += new System.EventHandler(this.onMouseLeave);
             // 
             // frmRegister
             // 
