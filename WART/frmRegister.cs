@@ -31,6 +31,7 @@ namespace WART
         public frmRegister()
         {
             InitializeComponent();
+            ServicePointManager.Expect100Continue = false;
             ServicePointManager.ServerCertificateValidationCallback += CustomCertificateValidation;
         }
 
