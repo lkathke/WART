@@ -27,6 +27,7 @@ namespace WART
         public  string method = "sms";
         protected ToolTip tt;
         private string[] WaCertThumbprints = {"AC4C5FDEAEDD00406AC33C58BAFD6DE6D2424FEE", "738F92D22B2A2E6A8A42C60964B93FCCB456957F"};
+        protected bool debug;
 
         public frmRegister()
         {
@@ -66,6 +67,7 @@ namespace WART
 
         private void btnCodeRequest_Click(object sender, EventArgs e)
         {
+            this.debug = this.chkDebug.Checked;
             if (!String.IsNullOrEmpty(this.txtPhoneNumber.Text))
             {
                 if (this.radVoice.Checked)
@@ -99,8 +101,23 @@ namespace WART
                     this.Notify(msg);
                     return;
                 }
+
+                string request = null;
                 string response = null;
-                if (WhatsAppApi.Register.WhatsRegisterV2.RequestCode(this.cc, this.phone, out this.password, out response, this.method, this.identity, this.language, this.locale, this.mcc))
+
+                bool registerResult = WhatsAppApi.Register.WhatsRegisterV2.RequestCode(this.cc, this.phone, out this.password, out request, out response, this.method, this.identity, this.language, this.locale, this.mcc);
+
+                if (this.debug)
+                {
+                    this.Notify(string.Format(@"Code Request:
+Token = {0}
+Identity = {1}
+User Agent = {2}
+Request = {3}
+Response = {4}", WhatsAppApi.Register.WhatsRegisterV2.GetToken(this.phone), this.identity, WhatsAppApi.Settings.WhatsConstants.UserAgent, request, response));
+                }
+                
+                if (registerResult)
                 {
                     if (!string.IsNullOrEmpty(this.password))
                     {

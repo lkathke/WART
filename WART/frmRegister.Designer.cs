@@ -33,6 +33,7 @@
             this.btnCodeRequest = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.grpStep1 = new System.Windows.Forms.GroupBox();
+            this.btnExist = new System.Windows.Forms.Button();
             this.btnID = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.txtPassword = new System.Windows.Forms.TextBox();
@@ -44,7 +45,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtOutput = new System.Windows.Forms.TextBox();
             this.grpResult = new System.Windows.Forms.GroupBox();
-            this.btnExist = new System.Windows.Forms.Button();
+            this.chkDebug = new System.Windows.Forms.CheckBox();
             this.grpStep1.SuspendLayout();
             this.grpStep2.SuspendLayout();
             this.grpResult.SuspendLayout();
@@ -83,6 +84,7 @@
             // 
             // grpStep1
             // 
+            this.grpStep1.Controls.Add(this.chkDebug);
             this.grpStep1.Controls.Add(this.btnExist);
             this.grpStep1.Controls.Add(this.btnID);
             this.grpStep1.Controls.Add(this.label3);
@@ -98,6 +100,18 @@
             this.grpStep1.TabIndex = 4;
             this.grpStep1.TabStop = false;
             this.grpStep1.Text = "Step 1: Request code";
+            // 
+            // btnExist
+            // 
+            this.btnExist.Location = new System.Drawing.Point(88, 99);
+            this.btnExist.Name = "btnExist";
+            this.btnExist.Size = new System.Drawing.Size(164, 23);
+            this.btnExist.TabIndex = 9;
+            this.btnExist.Text = "Check existing registration";
+            this.btnExist.UseVisualStyleBackColor = true;
+            this.btnExist.Click += new System.EventHandler(this.btnExist_Click);
+            this.btnExist.MouseEnter += new System.EventHandler(this.onMouseEnter);
+            this.btnExist.MouseLeave += new System.EventHandler(this.onMouseLeave);
             // 
             // btnID
             // 
@@ -221,17 +235,15 @@
             this.grpResult.TabStop = false;
             this.grpResult.Text = "Step 3: Retrieve password";
             // 
-            // btnExist
+            // chkDebug
             // 
-            this.btnExist.Location = new System.Drawing.Point(9, 99);
-            this.btnExist.Name = "btnExist";
-            this.btnExist.Size = new System.Drawing.Size(243, 23);
-            this.btnExist.TabIndex = 9;
-            this.btnExist.Text = "Check existing registration";
-            this.btnExist.UseVisualStyleBackColor = true;
-            this.btnExist.Click += new System.EventHandler(this.btnExist_Click);
-            this.btnExist.MouseEnter += new System.EventHandler(this.onMouseEnter);
-            this.btnExist.MouseLeave += new System.EventHandler(this.onMouseLeave);
+            this.chkDebug.AutoSize = true;
+            this.chkDebug.Location = new System.Drawing.Point(9, 103);
+            this.chkDebug.Name = "chkDebug";
+            this.chkDebug.Size = new System.Drawing.Size(58, 17);
+            this.chkDebug.TabIndex = 10;
+            this.chkDebug.Text = "Debug";
+            this.chkDebug.UseVisualStyleBackColor = true;
             // 
             // frmRegister
             // 
@@ -273,5 +285,6 @@
         private System.Windows.Forms.TextBox txtPassword;
         private System.Windows.Forms.Button btnID;
         private System.Windows.Forms.Button btnExist;
+        private System.Windows.Forms.CheckBox chkDebug;
     }
 }
