@@ -26,7 +26,11 @@ namespace WART
         protected bool raw = false;
         public  string method = "sms";
         protected ToolTip tt;
-        private string[] WaCertThumbprints = {"AC4C5FDEAEDD00406AC33C58BAFD6DE6D2424FEE", "738F92D22B2A2E6A8A42C60964B93FCCB456957F"};
+        private string[] WaCertThumbprints = {
+                                                 "AC4C5FDEAEDD00406AC33C58BAFD6DE6D2424FEE", 
+                                                 "738F92D22B2A2E6A8A42C60964B93FCCB456957F",
+                                                 "155906D29D14DF2A54F039F6E170C2A7F97EEDEE"
+                                             };
         protected bool debug;
 
         public frmRegister()
