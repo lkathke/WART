@@ -386,16 +386,8 @@ Response = {4}", WhatsAppApi.Register.WhatsRegisterV2.GetToken(this.phone), this
                     }
                     else
                     {
-                        if (response == "iplimit")
-                        {
-                            Console.WriteLine("Daily 10 unique phone number limit reached.");
-                            Console.WriteLine("Try again tomorrow or email me at shirioko@gmail.com to add you to my whitelist");
-                        }
-                        else
-                        {
-                            Console.WriteLine("Error:");
-                            Console.WriteLine(response);
-                        }
+                        Console.WriteLine("Error:");
+                        Console.WriteLine(response);
                     }
                 }
                 else
