@@ -19,9 +19,6 @@ namespace WART
         protected string cc = string.Empty;
         protected string phone = string.Empty;
         protected string password = string.Empty;
-        protected string language = string.Empty;
-        protected string locale = string.Empty;
-        protected string mcc = string.Empty;
         protected string code = string.Empty;
         protected bool raw = false;
         public  string method = "sms";
@@ -86,9 +83,6 @@ namespace WART
                     this.identity = WhatsAppApi.Register.WhatsRegisterV2.GenerateIdentity(phonenumber.Number, this.txtPassword.Text);
                     this.cc = phonenumber.CC;
                     this.phone = phonenumber.Number;
-                    this.language = phonenumber.ISO639;
-                    this.locale = phonenumber.ISO3166;
-                    this.mcc = phonenumber.MCC;
 
                     CountryHelper chelp = new CountryHelper();
                     string country = string.Empty;
@@ -109,7 +103,7 @@ namespace WART
                 string request = null;
                 string response = null;
 
-                bool registerResult = WhatsAppApi.Register.WhatsRegisterV2.RequestCode(this.cc, this.phone, out this.password, out request, out response, this.method, this.identity, this.language, this.locale, this.mcc);
+                bool registerResult = WhatsAppApi.Register.WhatsRegisterV2.RequestCode(this.number, out this.password, out request, out response, this.method, this.identity);
 
                 if (this.debug)
                 {
@@ -152,7 +146,7 @@ Response = {4}", WhatsAppApi.Register.WhatsRegisterV2.GetToken(this.phone), this
             {
                 this.code = this.txtCode.Text;
                 string response = string.Empty;
-                this.password = WhatsAppApi.Register.WhatsRegisterV2.RegisterCode(this.cc, this.phone, this.code, out response, this.identity);
+                this.password = WhatsAppApi.Register.WhatsRegisterV2.RegisterCode(this.number, this.code, out response, this.identity);
                 if (!String.IsNullOrEmpty(this.password))
                 {
                     this.OnReceivePassword();
@@ -320,7 +314,7 @@ Response = {4}", WhatsAppApi.Register.WhatsRegisterV2.GetToken(this.phone), this
                 if (ch.CheckFormat(pn.CC, pn.Number, out country))
                 {
                     string response = string.Empty;
-                    this.password = WhatsAppApi.Register.WhatsRegisterV2.RegisterCode(pn.CC, pn.Number, this.code, out response, null, this.password);
+                    this.password = WhatsAppApi.Register.WhatsRegisterV2.RegisterCode(this.number, this.code, out response, this.identity);
                     
                     //return raw
                     if (this.raw)
@@ -363,7 +357,7 @@ Response = {4}", WhatsAppApi.Register.WhatsRegisterV2.GetToken(this.phone), this
                 string response = string.Empty;
                 if (ch.CheckFormat(pn.CC, pn.Number, out country))
                 {
-                    bool result = WhatsAppApi.Register.WhatsRegisterV2.RequestCode(pn.CC, pn.Number, out this.password, out response, this.method, null, pn.ISO639, pn.ISO3166, pn.MCC, this.password);
+                    bool result = WhatsAppApi.Register.WhatsRegisterV2.RequestCode(this.number, out this.password, out response, this.method, this.identity);
                     
                     //return raw
                     if (this.raw)
@@ -414,7 +408,7 @@ Response = {4}", WhatsAppApi.Register.WhatsRegisterV2.GetToken(this.phone), this
                 string response = string.Empty;
                 if (ch.CheckFormat(pn.CC, pn.Number, out country))
                 {
-                    this.password = WhatsAppApi.Register.WhatsRegisterV2.RequestExist(pn.CC, pn.Number, out response, this.identity);
+                    this.password = WhatsAppApi.Register.WhatsRegisterV2.RequestExist(this.number, out response, this.identity);
 
                     //return raw
                     if (this.raw)
@@ -513,9 +507,6 @@ Response = {4}", WhatsAppApi.Register.WhatsRegisterV2.GetToken(this.phone), this
                     this.identity = WhatsAppApi.Register.WhatsRegisterV2.GenerateIdentity(phonenumber.Number, this.txtPassword.Text);
                     this.cc = phonenumber.CC;
                     this.phone = phonenumber.Number;
-                    this.language = phonenumber.ISO639;
-                    this.locale = phonenumber.ISO3166;
-                    this.mcc = phonenumber.MCC;
 
                     CountryHelper chelp = new CountryHelper();
                     string country = string.Empty;
@@ -533,7 +524,7 @@ Response = {4}", WhatsAppApi.Register.WhatsRegisterV2.GetToken(this.phone), this
                     return;
                 }
                 string response = null;
-                this.password = WhatsAppApi.Register.WhatsRegisterV2.RequestExist(this.cc, this.phone, out response, this.identity);
+                this.password = WhatsAppApi.Register.WhatsRegisterV2.RequestExist(this.number, out response, this.identity);
 
                 if (!string.IsNullOrEmpty(this.password))
                 {
