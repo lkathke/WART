@@ -26,7 +26,8 @@ namespace WART
         private string[] WaCertThumbprints = {
                                                  "AC4C5FDEAEDD00406AC33C58BAFD6DE6D2424FEE", 
                                                  "738F92D22B2A2E6A8A42C60964B93FCCB456957F",
-                                                 "155906D29D14DF2A54F039F6E170C2A7F97EEDEE"
+                                                 "155906D29D14DF2A54F039F6E170C2A7F97EEDEE",
+                                                 "F8E2555BB2D58A76995A6B897CEAFA032CFA6C27"
                                              };
         protected bool debug;
 
