@@ -40,15 +40,12 @@ namespace WART
 
         private bool CustomCertificateValidation(object sender, System.Security.Cryptography.X509Certificates.X509Certificate certificate, System.Security.Cryptography.X509Certificates.X509Chain chain, System.Net.Security.SslPolicyErrors sslPolicyErrors)
         {
-            if (WaCertThumbprints.Contains(certificate.GetCertHashString()))
+            if(sslPolicyErrors != System.Net.Security.SslPolicyErrors.None)
             {
-                return true;
+                return WaCertThumbprints.Contains(certificate.GetCertHashString());
             }
-            else
-            {
-                return false;
-            }
-        } 
+            return true;
+        }
 
         private void AddToolTips()
         {
