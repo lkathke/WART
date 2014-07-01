@@ -33,19 +33,17 @@
             this.btnCodeRequest = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.grpStep1 = new System.Windows.Forms.GroupBox();
-            this.btnExist = new System.Windows.Forms.Button();
+            this.chkDebug = new System.Windows.Forms.CheckBox();
             this.btnID = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.txtPassword = new System.Windows.Forms.TextBox();
-            this.radVoice = new System.Windows.Forms.RadioButton();
-            this.radSMS = new System.Windows.Forms.RadioButton();
             this.grpStep2 = new System.Windows.Forms.GroupBox();
             this.btnRegisterCode = new System.Windows.Forms.Button();
             this.txtCode = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtOutput = new System.Windows.Forms.TextBox();
             this.grpResult = new System.Windows.Forms.GroupBox();
-            this.chkDebug = new System.Windows.Forms.CheckBox();
+            this.btnExist = new System.Windows.Forms.Button();
             this.grpStep1.SuspendLayout();
             this.grpStep2.SuspendLayout();
             this.grpResult.SuspendLayout();
@@ -63,7 +61,7 @@
             // 
             // btnCodeRequest
             // 
-            this.btnCodeRequest.Location = new System.Drawing.Point(159, 72);
+            this.btnCodeRequest.Location = new System.Drawing.Point(45, 72);
             this.btnCodeRequest.Name = "btnCodeRequest";
             this.btnCodeRequest.Size = new System.Drawing.Size(94, 23);
             this.btnCodeRequest.TabIndex = 6;
@@ -89,8 +87,6 @@
             this.grpStep1.Controls.Add(this.btnID);
             this.grpStep1.Controls.Add(this.label3);
             this.grpStep1.Controls.Add(this.txtPassword);
-            this.grpStep1.Controls.Add(this.radVoice);
-            this.grpStep1.Controls.Add(this.radSMS);
             this.grpStep1.Controls.Add(this.label2);
             this.grpStep1.Controls.Add(this.btnCodeRequest);
             this.grpStep1.Controls.Add(this.txtPhoneNumber);
@@ -101,22 +97,20 @@
             this.grpStep1.TabStop = false;
             this.grpStep1.Text = "Step 1: Request code";
             // 
-            // btnExist
+            // chkDebug
             // 
-            this.btnExist.Location = new System.Drawing.Point(88, 99);
-            this.btnExist.Name = "btnExist";
-            this.btnExist.Size = new System.Drawing.Size(164, 23);
-            this.btnExist.TabIndex = 9;
-            this.btnExist.Text = "Check existing registration";
-            this.btnExist.UseVisualStyleBackColor = true;
-            this.btnExist.Click += new System.EventHandler(this.btnExist_Click);
-            this.btnExist.MouseEnter += new System.EventHandler(this.onMouseEnter);
-            this.btnExist.MouseLeave += new System.EventHandler(this.onMouseLeave);
+            this.chkDebug.AutoSize = true;
+            this.chkDebug.Location = new System.Drawing.Point(9, 103);
+            this.chkDebug.Name = "chkDebug";
+            this.chkDebug.Size = new System.Drawing.Size(58, 17);
+            this.chkDebug.TabIndex = 10;
+            this.chkDebug.Text = "Debug";
+            this.chkDebug.UseVisualStyleBackColor = true;
             // 
             // btnID
             // 
             this.btnID.Enabled = false;
-            this.btnID.Location = new System.Drawing.Point(121, 72);
+            this.btnID.Location = new System.Drawing.Point(9, 72);
             this.btnID.Name = "btnID";
             this.btnID.Size = new System.Drawing.Size(30, 23);
             this.btnID.TabIndex = 8;
@@ -144,32 +138,6 @@
             this.txtPassword.TabIndex = 2;
             this.txtPassword.MouseEnter += new System.EventHandler(this.onMouseEnter);
             this.txtPassword.MouseLeave += new System.EventHandler(this.onMouseLeave);
-            // 
-            // radVoice
-            // 
-            this.radVoice.AutoSize = true;
-            this.radVoice.Location = new System.Drawing.Point(63, 75);
-            this.radVoice.Name = "radVoice";
-            this.radVoice.Size = new System.Drawing.Size(52, 17);
-            this.radVoice.TabIndex = 3;
-            this.radVoice.Text = "Voice";
-            this.radVoice.UseVisualStyleBackColor = true;
-            this.radVoice.MouseEnter += new System.EventHandler(this.onMouseEnter);
-            this.radVoice.MouseLeave += new System.EventHandler(this.onMouseLeave);
-            // 
-            // radSMS
-            // 
-            this.radSMS.AutoSize = true;
-            this.radSMS.Checked = true;
-            this.radSMS.Location = new System.Drawing.Point(9, 75);
-            this.radSMS.Name = "radSMS";
-            this.radSMS.Size = new System.Drawing.Size(48, 17);
-            this.radSMS.TabIndex = 3;
-            this.radSMS.TabStop = true;
-            this.radSMS.Text = "SMS";
-            this.radSMS.UseVisualStyleBackColor = true;
-            this.radSMS.MouseEnter += new System.EventHandler(this.onMouseEnter);
-            this.radSMS.MouseLeave += new System.EventHandler(this.onMouseLeave);
             // 
             // grpStep2
             // 
@@ -235,15 +203,17 @@
             this.grpResult.TabStop = false;
             this.grpResult.Text = "Step 3: Retrieve password";
             // 
-            // chkDebug
+            // btnExist
             // 
-            this.chkDebug.AutoSize = true;
-            this.chkDebug.Location = new System.Drawing.Point(9, 103);
-            this.chkDebug.Name = "chkDebug";
-            this.chkDebug.Size = new System.Drawing.Size(58, 17);
-            this.chkDebug.TabIndex = 10;
-            this.chkDebug.Text = "Debug";
-            this.chkDebug.UseVisualStyleBackColor = true;
+            this.btnExist.Location = new System.Drawing.Point(145, 72);
+            this.btnExist.Name = "btnExist";
+            this.btnExist.Size = new System.Drawing.Size(108, 23);
+            this.btnExist.TabIndex = 9;
+            this.btnExist.Text = "Check existing";
+            this.btnExist.UseVisualStyleBackColor = true;
+            this.btnExist.Click += new System.EventHandler(this.btnExist_Click);
+            this.btnExist.MouseEnter += new System.EventHandler(this.onMouseEnter);
+            this.btnExist.MouseLeave += new System.EventHandler(this.onMouseLeave);
             // 
             // frmRegister
             // 
@@ -273,9 +243,7 @@
         private System.Windows.Forms.Button btnCodeRequest;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox grpStep1;
-        private System.Windows.Forms.RadioButton radSMS;
         private System.Windows.Forms.GroupBox grpStep2;
-        private System.Windows.Forms.RadioButton radVoice;
         private System.Windows.Forms.TextBox txtOutput;
         private System.Windows.Forms.Button btnRegisterCode;
         private System.Windows.Forms.TextBox txtCode;
@@ -284,7 +252,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtPassword;
         private System.Windows.Forms.Button btnID;
-        private System.Windows.Forms.Button btnExist;
         private System.Windows.Forms.CheckBox chkDebug;
+        private System.Windows.Forms.Button btnExist;
     }
 }

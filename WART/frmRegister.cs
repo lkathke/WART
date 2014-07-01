@@ -57,8 +57,6 @@ namespace WART
             this.tt.SetToolTip(this.txtPassword, "Optional personal password. Using your own personal password will greatly increase security.");
             this.tt.SetToolTip(this.txtPhoneNumber, "Your phone number including country code (no leading + or 0)");
             this.tt.SetToolTip(this.txtCode, "6-digit verifiction code you received by SMS or voice call");
-            this.tt.SetToolTip(this.radSMS, "You will receive an SMS with the 6-digit verification code");
-            this.tt.SetToolTip(this.radVoice, "You will receive a voice call which will tell you your 6-digit verification code");
             this.tt.SetToolTip(this.btnID, "Generate ID by number and password and copy it to clipboard");
             this.tt.SetToolTip(this.btnExist, "Only check the submitted registration details and retrieve a new password if they match");
             this.tt.SetToolTip(this.btnCodeRequest, "Request registration code. You will receive a new password instead if the submitted registration already exists");
@@ -69,10 +67,6 @@ namespace WART
             this.debug = this.chkDebug.Checked;
             if (!String.IsNullOrEmpty(this.txtPhoneNumber.Text))
             {
-                if (this.radVoice.Checked)
-                {
-                    this.method = "voice";
-                }
                 try
                 {
                     this.number = this.txtPhoneNumber.Text;
@@ -98,44 +92,59 @@ namespace WART
                     return;
                 }
 
-                string request = null;
-                string response = null;
+                //try sms
+                this.method = "sms";
+                if (!this._requestCode())
+                {
+                    //try using voice
+                    this.method = "voice";
+                    this._requestCode();
+                }
 
-                bool registerResult = WhatsAppApi.Register.WhatsRegisterV2.RequestCode(this.number, out this.password, out request, out response, this.method, this.identity);
-
-                if (this.debug)
-                {
-                    this.Notify(string.Format(@"Code Request:
-Token = {0}
-Identity = {1}
-User Agent = {2}
-Request = {3}
-Response = {4}", WhatsAppApi.Register.WhatsRegisterV2.GetToken(this.phone), this.identity, WhatsAppApi.Settings.WhatsConstants.UserAgent, request, response));
-                }
-                
-                if (registerResult)
-                {
-                    if (!string.IsNullOrEmpty(this.password))
-                    {
-                        //password received
-                        this.OnReceivePassword();
-                    }
-                    else
-                    {
-                        this.grpStep1.Enabled = false;
-                        this.grpStep2.Enabled = true;
-                    }
-                }
-                else
-                {
-                    string msg = string.Format("Could not request verification code\r\n{0}", response);
-                    this.Notify(msg);
-                }
             }
             else
             {
                 this.Notify("Please enter a phone number");
             }
+        }
+
+        private bool _requestCode()
+        {
+            string request = null;
+            string response = null;
+
+            bool registerResult = WhatsAppApi.Register.WhatsRegisterV2.RequestCode(this.number, out this.password, out request, out response, this.method, this.identity);
+
+            if (this.debug)
+            {
+                this.Notify(string.Format(@"Code Request:
+Token = {0}
+Identity = {1}
+User Agent = {2}
+Request = {3}
+Response = {4}", WhatsAppApi.Register.WhatsRegisterV2.GetToken(this.phone), this.identity, WhatsAppApi.Settings.WhatsConstants.UserAgent, request, response));
+            }
+
+            if (registerResult)
+            {
+                if (!string.IsNullOrEmpty(this.password))
+                {
+                    //password received
+                    this.OnReceivePassword();
+                }
+                else
+                {
+                    this.grpStep1.Enabled = false;
+                    this.grpStep2.Enabled = true;
+                    this.Notify(string.Format("Code sent by {0} to {1}", this.method, this.number));
+                }
+            }
+            else
+            {
+                string msg = string.Format("Could not request verification code using {0}\r\n{1}", this.method, response);
+                this.Notify(msg);
+            }
+            return registerResult;
         }
 
         private void btnRegisterCode_Click(object sender, EventArgs e)
@@ -165,7 +174,7 @@ Response = {4}", WhatsAppApi.Register.WhatsRegisterV2.GetToken(this.phone), this
 
         private void OnReceivePassword()
         {
-            this.txtOutput.Text = String.Format("Found password:\r\n{0}\r\n\r\nWrite it down and exit the program", this.password);
+            this.Notify(String.Format("Got password:\r\n{0}\r\n\r\nWrite it down and exit the program", this.password));
             this.grpStep1.Enabled = false;
             this.grpStep2.Enabled = false;
             this.grpResult.Enabled = true;
