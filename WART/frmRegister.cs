@@ -60,6 +60,7 @@ namespace WART
             this.tt.SetToolTip(this.btnID, "Generate ID by number and password and copy it to clipboard");
             this.tt.SetToolTip(this.btnExist, "Only check the submitted registration details and retrieve a new password if they match");
             this.tt.SetToolTip(this.btnCodeRequest, "Request registration code. You will receive a new password instead if the submitted registration already exists");
+            this.tt.SetToolTip(this.btnSkip, "Skip code request and go to step 2 when you've already received a valid confirmation code for that number.");
         }
 
         private void btnCodeRequest_Click(object sender, EventArgs e)
@@ -68,11 +69,18 @@ namespace WART
             {
                 //try sms
                 this.method = "sms";
-                if (!this._requestCode())
+                string resp1 = string.Empty;
+                string resp2 = string.Empty;
+                if (!this._requestCode(out resp1))
                 {
                     //try using voice
                     this.method = "voice";
-                    this._requestCode();
+                    if (!this._requestCode(out resp2))
+                    {
+                        this.Notify(string.Format(@"Could not request code using either sms or voice.
+SMS:    {0}
+Voice:  {1}", resp1, resp2));
+                    }
                 }
             }
         }
@@ -114,12 +122,11 @@ namespace WART
             return false;
         }
 
-        private bool _requestCode()
+        private bool _requestCode(out string response)
         {
             string request = null;
-            string response = null;
 
-            bool registerResult = WhatsAppApi.Register.WhatsRegisterV2.RequestCode(this.number, out this.password, out request, out response, this.method, this.identity);
+            bool requestResult = WhatsAppApi.Register.WhatsRegisterV2.RequestCode(this.number, out this.password, out request, out response, this.method, this.identity);
 
             if (this.debug)
             {
@@ -131,7 +138,7 @@ Request = {3}
 Response = {4}", WhatsAppApi.Register.WhatsRegisterV2.GetToken(this.phone), this.identity, WhatsAppApi.Settings.WhatsConstants.UserAgent, request, response));
             }
 
-            if (registerResult)
+            if (requestResult)
             {
                 if (!string.IsNullOrEmpty(this.password))
                 {
@@ -145,12 +152,8 @@ Response = {4}", WhatsAppApi.Register.WhatsRegisterV2.GetToken(this.phone), this
                     this.Notify(string.Format("Code sent by {0} to {1}", this.method, this.number));
                 }
             }
-            else
-            {
-                string msg = string.Format("Could not request verification code using {0}\r\n{1}", this.method, response);
-                this.Notify(msg);
-            }
-            return registerResult;
+
+            return requestResult;
         }
 
         private void btnRegisterCode_Click(object sender, EventArgs e)
