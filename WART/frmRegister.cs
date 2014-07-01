@@ -65,6 +65,22 @@ namespace WART
         private void btnCodeRequest_Click(object sender, EventArgs e)
         {
             this.debug = this.chkDebug.Checked;
+            
+            if (this.parseNumber())
+            {
+                //try sms
+                this.method = "sms";
+                if (!this._requestCode())
+                {
+                    //try using voice
+                    this.method = "voice";
+                    this._requestCode();
+                }
+            }
+        }
+
+        private bool parseNumber()
+        {
             if (!String.IsNullOrEmpty(this.txtPhoneNumber.Text))
             {
                 try
@@ -82,30 +98,21 @@ namespace WART
                     {
                         string msg = string.Format("Provided number does not match any known patterns for {0}", country);
                         this.Notify(msg);
-                        return;
+                        return false;
                     }
+                    return true;
                 }
                 catch (Exception ex)
                 {
                     string msg = String.Format("Error: {0}", ex.Message);
                     this.Notify(msg);
-                    return;
                 }
-
-                //try sms
-                this.method = "sms";
-                if (!this._requestCode())
-                {
-                    //try using voice
-                    this.method = "voice";
-                    this._requestCode();
-                }
-
             }
             else
             {
                 this.Notify("Please enter a phone number");
             }
+            return false;
         }
 
         private bool _requestCode()
@@ -230,10 +237,16 @@ Response = {4}", WhatsAppApi.Register.WhatsRegisterV2.GetToken(this.phone), this
             if (!String.IsNullOrEmpty(this.txtPhoneNumber.Text))
             {
                 this.btnID.Enabled = true;
+                this.btnSkip.Enabled = true;
+                this.btnCodeRequest.Enabled = true;
+                this.btnExist.Enabled = true;
             }
             else
             {
                 this.btnID.Enabled = false;
+                this.btnSkip.Enabled = false;
+                this.btnCodeRequest.Enabled = false;
+                this.btnExist.Enabled = false;
             }
         }
 
@@ -547,6 +560,15 @@ Response = {4}", WhatsAppApi.Register.WhatsRegisterV2.GetToken(this.phone), this
             else
             {
                 this.Notify("Please enter a phone number");
+            }
+        }
+
+        private void btnSkip_Click(object sender, EventArgs e)
+        {
+            if (this.parseNumber())
+            {
+                this.grpStep1.Enabled = false;
+                this.grpStep2.Enabled = true;
             }
         }
     }

@@ -44,6 +44,7 @@
             this.txtOutput = new System.Windows.Forms.TextBox();
             this.grpResult = new System.Windows.Forms.GroupBox();
             this.btnExist = new System.Windows.Forms.Button();
+            this.btnSkip = new System.Windows.Forms.Button();
             this.grpStep1.SuspendLayout();
             this.grpStep2.SuspendLayout();
             this.grpResult.SuspendLayout();
@@ -61,6 +62,7 @@
             // 
             // btnCodeRequest
             // 
+            this.btnCodeRequest.Enabled = false;
             this.btnCodeRequest.Location = new System.Drawing.Point(45, 72);
             this.btnCodeRequest.Name = "btnCodeRequest";
             this.btnCodeRequest.Size = new System.Drawing.Size(94, 23);
@@ -82,6 +84,7 @@
             // 
             // grpStep1
             // 
+            this.grpStep1.Controls.Add(this.btnSkip);
             this.grpStep1.Controls.Add(this.chkDebug);
             this.grpStep1.Controls.Add(this.btnExist);
             this.grpStep1.Controls.Add(this.btnID);
@@ -205,6 +208,7 @@
             // 
             // btnExist
             // 
+            this.btnExist.Enabled = false;
             this.btnExist.Location = new System.Drawing.Point(145, 72);
             this.btnExist.Name = "btnExist";
             this.btnExist.Size = new System.Drawing.Size(108, 23);
@@ -214,6 +218,17 @@
             this.btnExist.Click += new System.EventHandler(this.btnExist_Click);
             this.btnExist.MouseEnter += new System.EventHandler(this.onMouseEnter);
             this.btnExist.MouseLeave += new System.EventHandler(this.onMouseLeave);
+            // 
+            // btnSkip
+            // 
+            this.btnSkip.Enabled = false;
+            this.btnSkip.Location = new System.Drawing.Point(73, 101);
+            this.btnSkip.Name = "btnSkip";
+            this.btnSkip.Size = new System.Drawing.Size(180, 23);
+            this.btnSkip.TabIndex = 11;
+            this.btnSkip.Text = "I already have a code";
+            this.btnSkip.UseVisualStyleBackColor = true;
+            this.btnSkip.Click += new System.EventHandler(this.btnSkip_Click);
             // 
             // frmRegister
             // 
@@ -254,5 +269,6 @@
         private System.Windows.Forms.Button btnID;
         private System.Windows.Forms.CheckBox chkDebug;
         private System.Windows.Forms.Button btnExist;
+        private System.Windows.Forms.Button btnSkip;
     }
 }
