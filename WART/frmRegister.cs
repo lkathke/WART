@@ -64,8 +64,6 @@ namespace WART
 
         private void btnCodeRequest_Click(object sender, EventArgs e)
         {
-            this.debug = this.chkDebug.Checked;
-            
             if (this.parseNumber())
             {
                 //try sms
@@ -81,6 +79,7 @@ namespace WART
 
         private bool parseNumber()
         {
+            this.debug = this.chkDebug.Checked;
             if (!String.IsNullOrEmpty(this.txtPhoneNumber.Text))
             {
                 try
@@ -161,6 +160,14 @@ Response = {4}", WhatsAppApi.Register.WhatsRegisterV2.GetToken(this.phone), this
                 this.code = this.txtCode.Text;
                 string response = string.Empty;
                 this.password = WhatsAppApi.Register.WhatsRegisterV2.RegisterCode(this.number, this.code, out response, this.identity);
+                if (this.debug)
+                {
+                    this.Notify(string.Format(@"Code register:
+Code = {0}
+Number = {1}
+Identity = {2}
+Response = {3}", this.code, this.number, this.identity, response));
+                }
                 if (!String.IsNullOrEmpty(this.password))
                 {
                     this.OnReceivePassword();
