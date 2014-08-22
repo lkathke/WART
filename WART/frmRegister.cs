@@ -42,9 +42,20 @@ namespace WART
         {
             if(sslPolicyErrors != System.Net.Security.SslPolicyErrors.None)
             {
-                return WaCertThumbprints.Contains(certificate.GetCertHashString());
+                if (!WaCertThumbprints.Contains(certificate.GetCertHashString()))
+                    return this.AskCertificateApproval(sslPolicyErrors, certificate);
             }
             return true;
+        }
+
+        protected bool AskCertificateApproval(System.Net.Security.SslPolicyErrors sslPolicyErrors, System.Security.Cryptography.X509Certificates.X509Certificate certificate)
+        {
+            DialogResult res = MessageBox.Show(this,
+                String.Format("Warning: server certificate cannot be verified as trusted (Errors: {0}). Continue?\r\n\r\n{1}", sslPolicyErrors.ToString(), certificate.ToString()), 
+                "Certificate error",
+                MessageBoxButtons.YesNo, 
+                MessageBoxIcon.Exclamation);
+            return res == System.Windows.Forms.DialogResult.Yes;
         }
 
         private void AddToolTips()
